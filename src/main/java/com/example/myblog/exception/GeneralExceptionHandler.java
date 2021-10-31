@@ -31,13 +31,13 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BlogNotCreatedException.class)
-    protected ResponseEntity<?> handleNotCreated(BlogNotCreatedException ex){
-        return new ResponseEntity<>(ex.getMessage() , HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> handleNotCreated(BlogNotCreatedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BlogNotFoundException.class)
-    protected ResponseEntity<?> handleNotFound(BlogNotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage() , HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<?> handleNotFound(BlogNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
