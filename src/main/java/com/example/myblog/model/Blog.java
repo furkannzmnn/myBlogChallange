@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "blogs")
-public class Blog implements Serializable {
+public class Blog extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +14,6 @@ public class Blog implements Serializable {
 
     @Column(length = 2400 , nullable = false)
     private String content;
-
-    private final LocalDateTime publicationDate = LocalDateTime.now();
-
-    private final LocalDateTime updateAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -56,14 +52,6 @@ public class Blog implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public LocalDateTime getPublicationDate() {
-        return publicationDate;
-    }
-
-    public LocalDateTime getUpdateAt() {
-        return updateAt;
     }
 
     public Author getAuthor() {
