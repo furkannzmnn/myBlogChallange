@@ -1,11 +1,8 @@
 package com.example.myblog.controller;
 
-import com.example.myblog.core.ApiResponseHandler;
 import com.example.myblog.dto.request.BlogSaveRequest;
-import com.example.myblog.model.Author;
-import com.example.myblog.model.Blog;
+import com.example.myblog.dto.*;
 import com.example.myblog.service.BlogService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.Map;
+
+import static java.time.LocalDateTime.now;
 
 
 @RestController
@@ -36,24 +37,44 @@ public class BlogController {
             description = "Successfully Blog Created",
             content = {@Content(mediaType = "application/json")}
     )
-    public ResponseEntity<?> createBlogContent(@RequestBody @Valid BlogSaveRequest blogSaveRequest){
-        return ApiResponseHandler.jsonGenerateResponse(
-                "blog created",
-                HttpStatus.CREATED,
-                blogService.createBlogContent(blogSaveRequest)
+    public ResponseEntity<ResponseApi> createBlogContent(@RequestBody @Valid BlogSaveRequest blogSaveRequest) {
+        return ResponseEntity.ok(
+                new ResponseApi.ResponseBuilder()
+                        .TimeStamp(now())
+                        .Message("created blog")
+                        .StatusCode(201)
+                        .HttpStatus(HttpStatus.CREATED)
+                        .Data(Map.of("blogs", blogService.createBlogContent(blogSaveRequest)))
+                        .build()
         );
     }
 
     @Transactional
-    @GetMapping("/list")
-    public ResponseEntity<?> listBlogs(){
-        return ApiResponseHandler.jsonGenerateResponse(
-                "blogs listed",
-                HttpStatus.CREATED,
-                blogService.getBlogContent()
+    @GetMapping("/list/limit/{limit}")
+    public ResponseEntity<ResponseApi> listBlogs(@PathVariable int limit) {
+        return ResponseEntity.ok(
+                new ResponseApi.ResponseBuilder()
+                        .TimeStamp(now())
+                        .Message("listed contents")
+                        .StatusCode(200)
+                        .HttpStatus(HttpStatus.OK)
+                        .Data(Map.of("blogs", blogService.getBlogContent(limit)))
+                        .build()
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseApi> findById(@PathVariable int id){
+        return ResponseEntity.ok(
+                new ResponseApi.ResponseBuilder()
+                        .TimeStamp(now())
+                        .Message("listed contents")
+                        .StatusCode(200)
+                        .HttpStatus(HttpStatus.OK)
+                        .Data(Map.of("blogs", blogService.getByIdBlog(id)))
+                        .build()
+        );
+    }
 
 
 }
