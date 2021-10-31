@@ -1,5 +1,5 @@
 package com.example.myblog.service;
-import com.example.myblog.core.Constant;
+import com.example.myblog.dto.Constant;
 import com.example.myblog.dto.BlogDto;
 import com.example.myblog.dto.converter.BlogSaveRequestConverter;
 import com.example.myblog.dto.converter.dtoConverter.BlogDtoConverter;
@@ -7,6 +7,7 @@ import com.example.myblog.dto.request.BlogSaveRequest;
 import com.example.myblog.exception.BlogNotFoundException;
 import com.example.myblog.model.Blog;
 import com.example.myblog.repository.BlogRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,8 @@ public class BlogService {
         );
     }
 
-    public List<BlogDto> getBlogContent()   {
-        return this.blogRepository.findAll()
+    public List<BlogDto> getBlogContent(int limit)   {
+        return this.blogRepository.findAll(Pageable.ofSize(limit))
                 .stream()
                 .map(blogDtoConverter::convertToBlogDto)
                 .collect(Collectors.toList());
@@ -48,7 +49,7 @@ public class BlogService {
     private Blog findById(int id){
         return blogRepository.findById(id)
                 .orElseThrow(
-                        () -> new BlogNotFoundException(Constant.BLOG_NOT_FOUND)
+                        () -> new BlogNotFoundException(Constant.BLOG_NOT_FOUND.toString())
                 );
     }
 }
