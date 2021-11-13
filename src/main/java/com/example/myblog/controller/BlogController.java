@@ -2,6 +2,7 @@ package com.example.myblog.controller;
 
 import com.example.myblog.dto.request.BlogSaveRequest;
 import com.example.myblog.dto.*;
+import com.example.myblog.dto.request.BlogUpdateRequest;
 import com.example.myblog.service.BlogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -75,6 +76,25 @@ public class BlogController {
                         .build()
         );
     }
+
+    @DeleteMapping("delete/{id}")
+    public String deleteByBlogId(@PathVariable int id){
+        return blogService.deleteByBlogId(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseApi> findById(@PathVariable int id , @Valid @RequestBody BlogUpdateRequest blogUpdateRequest){
+        return ResponseEntity.ok(
+                new ResponseApi.ResponseBuilder()
+                        .TimeStamp(now())
+                        .Message("update successfully")
+                        .StatusCode(204)
+                        .HttpStatus(HttpStatus.OK)
+                        .Data(Map.of("blogs", blogService.updateBlogContent(id,blogUpdateRequest)))
+                        .build()
+        );
+    }
+
 
 
 }

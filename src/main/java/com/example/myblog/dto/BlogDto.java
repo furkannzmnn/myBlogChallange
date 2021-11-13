@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public class BlogDto {
 
+    private int id;
+
     @NotBlank(message = "content in not be empty")
     @Length(min = 1, max = 2400 , message = "valid length")
     private String content;
@@ -19,6 +21,20 @@ public class BlogDto {
         this.content = content;
         this.publicationDate = publicationDate;
         this.author = author;
+    }
+
+    public BlogDto(int id, String content, LocalDateTime publicationDate, String author) {
+        this.id = id;
+        this.content = content;
+        this.publicationDate = publicationDate;
+        this.author = author;
+    }
+
+    public BlogDto() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getContent() {

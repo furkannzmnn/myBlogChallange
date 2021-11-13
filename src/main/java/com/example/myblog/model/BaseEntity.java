@@ -6,7 +6,7 @@ public class BaseEntity {
 
     private final LocalDateTime publicationDate = LocalDateTime.now();
 
-    private final LocalDateTime updateAt = LocalDateTime.now();
+    private LocalDateTime updateAt = LocalDateTime.now();
 
     public LocalDateTime getPublicationDate() {
         return publicationDate;
@@ -14,5 +14,10 @@ public class BaseEntity {
 
     public LocalDateTime getUpdateAt() {
         return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        updateAt = LocalDateTime.now();
+        this.updateAt = updateAt;
     }
 }

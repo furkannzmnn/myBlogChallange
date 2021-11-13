@@ -10,4 +10,8 @@ public class AuthorSaveRequest {
     public String getAuthorFullName() {
         return authorFullName;
     }
+
+    public AuthorSaveRequest(String authorFullName) {
+        this.authorFullName = authorFullName;
+    }
 }

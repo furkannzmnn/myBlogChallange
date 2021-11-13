@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "blogs")
-public class Blog extends BaseEntity implements Serializable {
+public final class Blog extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +14,8 @@ public class Blog extends BaseEntity implements Serializable {
 
     @Column(length = 2400 , nullable = false)
     private String content;
+
+    private String videoUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -25,8 +27,16 @@ public class Blog extends BaseEntity implements Serializable {
         this.author = author;
     }
 
-    public Blog(String content, Author author) {
+    public Blog( String content, String videoUrl, Author author) {
         this.content = content;
+        this.videoUrl = videoUrl;
+        this.author = author;
+    }
+
+    public Blog(int id, String content, String videoUrl, Author author) {
+        this.id = id;
+        this.content = content;
+        this.videoUrl = videoUrl;
         this.author = author;
     }
 
@@ -36,6 +46,19 @@ public class Blog extends BaseEntity implements Serializable {
 
     public Blog() {
 
+    }
+
+    public Blog(String content, String videoUrl) {
+        this.content = content;
+        this.videoUrl = videoUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public int getId() {

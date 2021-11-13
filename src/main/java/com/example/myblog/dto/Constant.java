@@ -7,7 +7,10 @@ public enum Constant {
 
     // CREATED MESSAGE
     BLOG_IS_NOT_CREATED,
-    AUTHOR_IS_NOT_CREATED
+    AUTHOR_IS_NOT_CREATED,
+
+    //DELETE MESSAGE
+    DELETE_OBJECT
 
 
 }

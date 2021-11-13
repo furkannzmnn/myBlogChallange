@@ -4,6 +4,7 @@ import com.example.myblog.dto.BlogDto;
 import com.example.myblog.dto.converter.BlogSaveRequestConverter;
 import com.example.myblog.dto.converter.dtoConverter.BlogDtoConverter;
 import com.example.myblog.dto.request.BlogSaveRequest;
+import com.example.myblog.dto.request.BlogUpdateRequest;
 import com.example.myblog.exception.BlogNotFoundException;
 import com.example.myblog.model.Blog;
 import com.example.myblog.repository.BlogRepository;
@@ -11,14 +12,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class BlogService {
 
+
     private final BlogRepository blogRepository;
     private final BlogSaveRequestConverter blogSaveRequestConverter;
     private final BlogDtoConverter blogDtoConverter;
+
 
     public BlogService(BlogRepository blogRepository, BlogSaveRequestConverter blogSaveRequestConverter, BlogDtoConverter blogDtoConverter) {
         this.blogRepository = blogRepository;
@@ -46,10 +50,38 @@ public class BlogService {
         return blogDtoConverter.convertToBlogDto(findById(id));
     }
 
-    private Blog findById(int id){
+    protected Blog findById(int id){
         return blogRepository.findById(id)
                 .orElseThrow(
                         () -> new BlogNotFoundException(Constant.BLOG_NOT_FOUND.toString())
                 );
     }
+
+    public BlogDto updateBlogContent(int id , BlogUpdateRequest blogUpdateRequest){
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+
+        blogOptional.ifPresent(blog -> {
+            blog.setContent(blogUpdateRequest.getContent());
+            blog.setVideoUrl(blogUpdateRequest.getVideoUrl());
+            blog.setUpdateAt(blogUpdateRequest.getUpdateAt());
+            blogRepository.save(blog);
+        });
+
+        return blogOptional.map(blogDtoConverter::convertToBlogDto).orElse(new BlogDto());
+    }
+
+    public String deleteByBlogId(int id){
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+        blogOptional.ifPresent(blog -> {
+            blogRepository.deleteById(id);
+        });
+         blogOptional.orElseThrow(
+                ()-> new BlogNotFoundException(Constant.BLOG_NOT_FOUND.toString())
+        );
+
+         return Constant.DELETE_OBJECT.toString();
+
+    }
+
+
 }
