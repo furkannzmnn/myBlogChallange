@@ -41,6 +41,6 @@ public class IntegrationTestSupport {
     }
 
     public BlogSaveRequest generateSaveRequest() {
-        return new BlogSaveRequest("content","embedded",generateAuthor());
+        return new BlogSaveRequest("content","embedded");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.myblog.service;
 
 import com.example.myblog.dto.AuthorDto;
+import com.example.myblog.dto.Constant;
 import com.example.myblog.dto.converter.AuthorSaveRequestConverter;
 import com.example.myblog.dto.converter.dtoConverter.AuthorDtoConverter;
 import com.example.myblog.dto.request.AuthorSaveRequest;
@@ -8,6 +9,7 @@ import com.example.myblog.model.Author;
 import com.example.myblog.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.SystemException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,4 +42,7 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
+    public Author findById(int id){
+        return this.authorRepository.findById(id).orElseThrow(()->new RuntimeException(Constant.AUTHOR_NOT_FOUND.toString()));
+    }
 }

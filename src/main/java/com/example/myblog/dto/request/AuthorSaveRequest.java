@@ -14,4 +14,7 @@ public class AuthorSaveRequest {
     public AuthorSaveRequest(String authorFullName) {
         this.authorFullName = authorFullName;
     }
+
+    public AuthorSaveRequest() {
+    }
 }

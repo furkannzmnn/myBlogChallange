@@ -9,14 +9,16 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 @Entity
 @Table(name = "author")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Author extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String authorFullName;
 
     @JsonIgnore

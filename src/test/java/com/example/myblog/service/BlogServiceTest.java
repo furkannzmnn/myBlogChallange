@@ -1,7 +1,6 @@
 package com.example.myblog.service;
 
 import com.example.myblog.dto.BlogDto;
-import com.example.myblog.dto.Constant;
 import com.example.myblog.dto.converter.BlogSaveRequestConverter;
 import com.example.myblog.dto.converter.dtoConverter.BlogDtoConverter;
 import com.example.myblog.dto.request.BlogSaveRequest;
@@ -11,8 +10,6 @@ import com.example.myblog.model.Blog;
 import com.example.myblog.repository.BlogRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
@@ -28,13 +25,15 @@ class BlogServiceTest {
     private BlogDtoConverter blogDtoConverter;
     private BlogSaveRequestConverter blogSaveRequestConverter;
     private BlogService blogService;
+    private AuthorService authorService;
 
     @BeforeEach
     void setUp() {
         blogRepository = mock(BlogRepository.class);
         blogDtoConverter = mock(BlogDtoConverter.class);
         blogSaveRequestConverter = mock(BlogSaveRequestConverter.class);
-        blogService = new BlogService(blogRepository, blogSaveRequestConverter,blogDtoConverter);
+        authorService = mock(AuthorService.class);
+        blogService = new BlogService(blogRepository, blogSaveRequestConverter,blogDtoConverter, authorService);
     }
 
     @Test
@@ -76,7 +75,7 @@ class BlogServiceTest {
 
         Author author = new Author("FURKAN ÖZMEN");
         Blog blog = new Blog("content" , "www.youtube.com" , author );
-        BlogSaveRequest blogSaveRequest = new BlogSaveRequest(blog.getContent() ,blog.getVideoUrl() ,author);
+        BlogSaveRequest blogSaveRequest = new BlogSaveRequest(blog.getContent() ,blog.getVideoUrl());
         BlogDto expected = new BlogDto(blog.getContent() , blog.getPublicationDate() ,blog.getAuthor().getAuthorFullName());
 
         when(blogRepository.save(blogSaveRequestConverter.blogSaveRequestToBlog(blogSaveRequest))).thenReturn(blog);

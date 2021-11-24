@@ -6,6 +6,7 @@ import com.example.myblog.dto.converter.dtoConverter.BlogDtoConverter;
 import com.example.myblog.dto.request.BlogSaveRequest;
 import com.example.myblog.dto.request.BlogUpdateRequest;
 import com.example.myblog.exception.BlogNotFoundException;
+import com.example.myblog.model.Author;
 import com.example.myblog.model.Blog;
 import com.example.myblog.repository.BlogRepository;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +23,14 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final BlogSaveRequestConverter blogSaveRequestConverter;
     private final BlogDtoConverter blogDtoConverter;
+    private final AuthorService authorService;
 
 
-    public BlogService(BlogRepository blogRepository, BlogSaveRequestConverter blogSaveRequestConverter, BlogDtoConverter blogDtoConverter) {
+    public BlogService(BlogRepository blogRepository, BlogSaveRequestConverter blogSaveRequestConverter, BlogDtoConverter blogDtoConverter, AuthorService authorService) {
         this.blogRepository = blogRepository;
         this.blogSaveRequestConverter = blogSaveRequestConverter;
         this.blogDtoConverter = blogDtoConverter;
+        this.authorService = authorService;
     }
 
     public BlogDto createBlogContent(BlogSaveRequest blogSaveRequest){

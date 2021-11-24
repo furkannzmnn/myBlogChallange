@@ -40,6 +40,7 @@ public final class Blog extends BaseEntity implements Serializable {
         this.author = author;
     }
 
+
     public Blog(String content) {
         this.content = content;
     }
