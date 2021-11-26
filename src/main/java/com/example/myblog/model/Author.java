@@ -25,6 +25,8 @@ public class Author extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "author" , fetch = FetchType.LAZY)
     private Set<Blog> blog = new HashSet<>();
 
+    private int lastModifierId;
+
     public Author(int id, String authorFullName, Set<Blog> blog) {
         this.id = id;
         this.authorFullName = authorFullName;
@@ -63,5 +65,9 @@ public class Author extends BaseEntity implements Serializable {
 
     public void setBlog(Set<Blog> blog) {
         this.blog = blog;
+    }
+
+    public void setLastModifierId(int lastModifierId) {
+        this.lastModifierId = lastModifierId;
     }
 }

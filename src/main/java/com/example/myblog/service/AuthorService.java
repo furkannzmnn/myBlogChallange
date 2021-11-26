@@ -43,6 +43,7 @@ public class AuthorService {
     }
 
     public Author findById(int id){
-        return this.authorRepository.findById(id).orElseThrow(()->new RuntimeException(Constant.AUTHOR_NOT_FOUND.toString()));
+        return this.authorRepository.findById(id)
+                .orElseThrow(()->new RuntimeException(Constant.AUTHOR_NOT_FOUND.toString()));
     }
 }

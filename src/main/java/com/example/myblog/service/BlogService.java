@@ -56,19 +56,24 @@ public class BlogService {
     protected Blog findById(int id){
         return blogRepository.findById(id)
                 .orElseThrow(
-                        () -> new BlogNotFoundException(Constant.BLOG_NOT_FOUND.toString())
+                        () -> new BlogNotFoundException(Constant.BLOG_NOT_FOUND)
                 );
     }
 
-    public BlogDto updateBlogContent(int id , BlogUpdateRequest blogUpdateRequest){
+    public BlogDto updateBlogContent(int id , BlogUpdateRequest blogUpdateRequest, int authorId){
         Optional<Blog> blogOptional = blogRepository.findById(id);
+        Author author = authorService.findById(authorId);
 
         blogOptional.ifPresent(blog -> {
             blog.setContent(blogUpdateRequest.getContent());
             blog.setVideoUrl(blogUpdateRequest.getVideoUrl());
             blog.setUpdateAt(blogUpdateRequest.getUpdateAt());
+            author.setLastModifierId(blog.getId());
+
             blogRepository.save(blog);
         });
+
+
 
         return blogOptional.map(blogDtoConverter::convertToBlogDto).orElse(new BlogDto());
     }
@@ -79,7 +84,7 @@ public class BlogService {
             blogRepository.deleteById(id);
         });
          blogOptional.orElseThrow(
-                ()-> new BlogNotFoundException(Constant.BLOG_NOT_FOUND.toString())
+                ()-> new BlogNotFoundException(Constant.BLOG_NOT_FOUND)
         );
 
          return Constant.DELETE_OBJECT.toString();

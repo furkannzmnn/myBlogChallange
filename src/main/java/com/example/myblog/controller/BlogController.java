@@ -83,14 +83,14 @@ public class BlogController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseApi> findById(@PathVariable int id , @Valid @RequestBody BlogUpdateRequest blogUpdateRequest){
+    public ResponseEntity<ResponseApi> update(@PathVariable int id , @Valid @RequestBody BlogUpdateRequest blogUpdateRequest,int authorId){
         return ResponseEntity.ok(
                 new ResponseApi.ResponseBuilder()
                         .TimeStamp(now())
                         .Message("update successfully")
                         .StatusCode(204)
                         .HttpStatus(HttpStatus.OK)
-                        .Data(Map.of("blogs", blogService.updateBlogContent(id,blogUpdateRequest)))
+                        .Data(Map.of("blogs", blogService.updateBlogContent(id,blogUpdateRequest,authorId)))
                         .build()
         );
     }
